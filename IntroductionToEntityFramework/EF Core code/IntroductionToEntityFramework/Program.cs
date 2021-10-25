@@ -324,7 +324,8 @@ namespace SoftUni
                 db.Addresses.Remove(a);
             }
 
-            db.Towns.Remove(db.Towns.Single(t => t.Name == "Seattle"));
+            if(db.Towns.FirstOrDefault(t => t.Name == "Seattle") != null)
+                db.Towns.Remove(db.Towns.FirstOrDefault(t => t.Name == "Seattle"));
 
             db.SaveChanges();
 
@@ -335,7 +336,7 @@ namespace SoftUni
 
         static void Main(string[] args)
         {
-            Console.WriteLine(RemoveTown(new SoftUniContext()));
+            Console.WriteLine(GetEmployeesWithSalaryOver50000(new SoftUniContext()));
         }
     }
 }
