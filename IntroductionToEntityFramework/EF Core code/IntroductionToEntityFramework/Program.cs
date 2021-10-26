@@ -69,7 +69,8 @@ namespace SoftUni
                 AddressText = "Vitoshka 15"
             };
 
-            db.Addresses.Add(newAddress);
+            if(db.Addresses.OrderByDescending(a => a.AddressId).FirstOrDefault().AddressText.ToString() != "Vitoshka 15" && db.Addresses.OrderByDescending(a => a.AddressId).FirstOrDefault().TownId.ToString() != "4")
+                db.Addresses.Add(newAddress);
             db.SaveChanges();
 
             var emp = db.Employees.FirstOrDefault(e => e.LastName == "Nakov");
@@ -195,6 +196,7 @@ namespace SoftUni
             var derp = db.Departments
                         .Where(d => db.Employees.Where(ed => ed.DepartmentId == d.DepartmentId).Count() > 5)
                         .OrderBy(d => db.Employees.Where(ed => ed.DepartmentId == d.DepartmentId).Count())
+                        .ThenBy(d => d.Name)
                         .Select(d => new { d.DepartmentId, d.Name, d.Manager }).ToList();
 
             foreach (var d in derp)
@@ -206,7 +208,6 @@ namespace SoftUni
                     sb.AppendLine($"{emp.FirstName} {emp.LastName} - {emp.JobTitle}");
                 }
             }
-
             return sb.ToString();
         }
 
@@ -272,7 +273,7 @@ namespace SoftUni
             return sb.ToString(); 
         }
 
-        //Delete Project by Id
+        //Delete Project by Id [for id 2]
         public static string DeleteProjectById(SoftUniContext db)
         {
             var sb = new StringBuilder();
@@ -336,7 +337,6 @@ namespace SoftUni
 
         static void Main(string[] args)
         {
-            Console.WriteLine(GetEmployeesWithSalaryOver50000(new SoftUniContext()));
         }
     }
 }

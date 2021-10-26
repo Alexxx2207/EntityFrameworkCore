@@ -1433,7 +1433,7 @@ INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [MiddleName], [
 GO
 INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [MiddleName], [JobTitle], [DepartmentID], [ManagerID], [HireDate], [Salary], [AddressID]) VALUES (293, N'George', N'Denchev', NULL, N'Independent Java Consultant', 6, NULL, CAST(N'2005-03-01T00:00:00' AS SmallDateTime), 48000.0000, 291)
 GO
-SET IDENTITY_INSERT [dbo].[Employees] OFF
+SET IDENTITY_INSERT [dbo].[Employees] OFF 
 GO
 INSERT [dbo].[EmployeesProjects] ([EmployeeID], [ProjectID]) VALUES (1, 4)
 GO

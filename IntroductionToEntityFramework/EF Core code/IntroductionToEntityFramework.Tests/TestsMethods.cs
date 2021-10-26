@@ -94,48 +94,213 @@ namespace IntroductionToEntityFramework.Tests
         }
 
         [Test]
-        public void TestAddNewAddressToEmployee()
+        public void TestGetEmployeesInPeriod()
         {
             var expected = new StringBuilder();
-            string actual = "";
+
             using (var conn = new SqlConnection(connectionString))
             {
                 conn.Open();
+                SqlCommand query = new SqlCommand(@"SELECT TOP(40) e.FirstName [eF], e.LastName [eL], m.FirstName [mF], m.LastName [mL], p.Name, p.StartDate, p.EndDate FROM Employees e JOIN Employees m on m.EmployeeID = e.ManagerID JOIN EmployeesProjects ep ON ep.EmployeeID = e.EmployeeID JOIN Projects p ON ep.ProjectID = p.ProjectID WHERE (SELECT COUNT(*) FROM Projects pp JOIN EmployeesProjects epp ON epp.ProjectID = pp.ProjectID WHERE YEAR(pp.StartDate) BETWEEN 2001 AND 2003 AND e.EmployeeID = epp.EmployeeID) > 0 ORDER BY e.EmployeeID", conn);
+                SqlDataReader reader = query.ExecuteReader();
 
-                actual = StartUp.AddNewAddressToEmployee(new SoftUni.Data.SoftUniContext());
+                string currentName = "";
 
-                SqlCommand addressInfo = new SqlCommand(@"SELECT TOP(1) AddressId, AddressText, TownId FROM Addresses ORDER BY AddressID DESC", conn);
-                SqlDataReader addressInfoReader = addressInfo.ExecuteReader();
-
-                addressInfoReader.Read();
-                var addressId = addressInfoReader["AddressId"];
-                Assert.AreEqual(addressInfoReader["AddressText"].ToString() + " " + addressInfoReader["TownId"].ToString(), "Vitoshka 15 4");               
-                addressInfoReader.Close();
-
-                SqlCommand nakovAddress = new SqlCommand(@"SELECT AddressId FROM Employees WHERE LastName = 'Nakov'", conn);
-                SqlDataReader nakovAddressReader = addressInfo.ExecuteReader();
-
-                nakovAddressReader.Read();
-
-                Assert.AreEqual(nakovAddressReader["AddressId"], addressId);
-                nakovAddressReader.Close();
-
-                SqlCommand endResult = new SqlCommand(@"SELECT TOP(10) a.AddressText FROM Employees e JOIN Addresses a ON e.AddressID = a.AddressID ORDER BY a.AddressID DESC", conn);
-                SqlDataReader endResultReader = endResult.ExecuteReader();
-
-                while (endResultReader.Read())
+                while (reader.Read())
                 {
-                    expected.AppendLine(endResultReader["AddressText"].ToString());
+                    if (currentName != reader["eF"].ToString() + reader["eL"].ToString())
+                    {
+                        expected.AppendLine($"{reader["eF"]} {reader["eL"]} - Manager: {reader["mF"]} {reader["mL"]}");
+                        currentName = reader["eF"].ToString() + reader["eL"].ToString();
+                    }
+                    if(reader["EndDate"].ToString() == "")
+                        expected.AppendLine($"--{reader["Name"]} - {reader["StartDate"]} - not finished");
+
+                    else
+                        expected.AppendLine($"--{reader["Name"]} - {reader["StartDate"]} - {reader["EndDate"]}");
                 }
-                endResultReader.Close();
-                
+                reader.Close();
                 conn.Close();
                 conn.Dispose();
             }
 
+            string actual = StartUp.GetEmployeesInPeriod(new SoftUni.Data.SoftUniContext());
             Assert.AreEqual(expected.ToString(), actual);
         }
 
-        /// 7 ex 
+        [Test]
+        public void TestGetAddressesByTown()
+        {
+            var expected = new StringBuilder();
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand query = new SqlCommand(@"SELECT TOP(10) a.AddressText, t.Name, COUNT(e.EmployeeId) as [Count] FROM Addresses a JOIN Towns t ON t.TownID = a.TownID JOIN Employees e ON e.AddressID = a.AddressID GROUP BY a.AddressText, t.Name ORDER BY COUNT(e.EmployeeId) DESC, t.Name, a.AddressText", conn);
+                SqlDataReader reader = query.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    expected.AppendLine($"{reader["AddressText"]}, {reader["Name"]} - {reader["Count"]} employees");
+                }
+                reader.Close();
+                conn.Close();
+                conn.Dispose();
+            }
+
+            string actual = StartUp.GetAddressesByTown(new SoftUni.Data.SoftUniContext());
+            Assert.AreEqual(expected.ToString(), actual);
+        }
+
+        [Test]
+        public void TestGetEmployee147()
+        {
+            var expected = new StringBuilder();
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand query = new SqlCommand(@"SELECT TOP(40) e.FirstName [eF], e.LastName [eL], e.JobTitle , p.Name FROM Employees e JOIN Employees m on m.EmployeeID = e.ManagerID JOIN EmployeesProjects ep ON ep.EmployeeID = e.EmployeeID JOIN Projects p ON ep.ProjectID = p.ProjectID WHERE e.EmployeeID = 147 ORDER BY P.Name", conn);
+                SqlDataReader reader = query.ExecuteReader();
+                reader.Read();
+                expected.AppendLine($"{reader["eF"]} {reader["eL"]} - {reader["JobTitle"]}");
+                expected.AppendLine($"{reader["Name"]}");
+                while (reader.Read())
+                {
+                    expected.AppendLine($"{reader["Name"]}");
+                }
+                reader.Close();
+                conn.Close();
+                conn.Dispose();
+            }
+
+            string actual = StartUp.GetEmployee147(new SoftUni.Data.SoftUniContext());
+            Assert.AreEqual(expected.ToString(), actual);
+        }
+
+        [Test]
+        public void TestGetDepartmentsWithMoreThan5Employees()
+        {
+            var expected = new StringBuilder();
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand query = new SqlCommand(@"SELECT *, e.FirstName, e.LastName, e.JobTitle, m.FirstName [mf], m.LastName [ml] FROM (SELECT d.DepartmentId dd, d.Name, d.ManagerID, COUNT(e.EmployeeID) [Count] FROM Departments d JOIN Employees e ON d.DepartmentID = e.DepartmentID GROUP BY d.DepartmentId, d.Name, d.ManagerID) AS t JOIN Employees e ON t.dd = e.DepartmentID JOIN Employees m ON m.EmployeeID = t.ManagerID WHERE [Count] > 5 ORDER BY [Count], t.Name, E.FirstName, E.LastName", conn);
+                SqlDataReader reader = query.ExecuteReader();
+
+                int depId = -1;
+                string curentName = "";
+
+                while (reader.Read())
+                {
+                    if (depId != int.Parse(reader["dd"].ToString()))
+                    {
+                        expected.AppendLine($"{reader["Name"]} - {reader["mf"]} {reader["ml"]}");
+                        depId = int.Parse(reader["dd"].ToString());
+                    }
+                    if (curentName != reader["FirstName"].ToString() + reader["LastName"].ToString())
+                    {
+                        expected.AppendLine($"{reader["FirstName"]} {reader["LastName"]} - {reader["JobTitle"]}");
+                        curentName = reader["FirstName"].ToString() + reader["LastName"].ToString();
+                    }
+                }
+                reader.Close();
+                conn.Close();
+                conn.Dispose();
+            }
+
+            string actual = StartUp.GetDepartmentsWithMoreThan5Employees(new SoftUni.Data.SoftUniContext());
+            Assert.AreEqual(expected.ToString(), actual);
+        }
+
+        [Test]
+        public void TestGetLatestProjects()
+        {
+            var expected = new StringBuilder();
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand query = new SqlCommand(@"SELECT * FROM (SELECT TOP(10) * FROM Projects ORDER BY StartDate DESC) AS t ORDER BY t.[Name]", conn);
+                SqlDataReader reader = query.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    expected.AppendLine($"{reader["Name"]}");
+                    expected.AppendLine($"{reader["Description"]}");
+                    expected.AppendLine($"{reader["StartDate"]:M/d/yyyy h:mm:ss tt}");
+                }
+
+                reader.Close();
+                conn.Close();
+                conn.Dispose();
+            }
+
+            string actual = StartUp.GetLatestProjects(new SoftUni.Data.SoftUniContext());
+            Assert.AreEqual(expected.ToString(), actual);
+        }
+
+        [Test]
+        public void TestIncreaseSalaries()
+        {
+            var expected = new StringBuilder();
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                new SqlCommand(@"UPDATE Employees
+	                                SET Salary *= 1.12
+	                            WHERE DepartmentID IN (SELECT DepartmentID FROM Departments WHERE [Name] IN ('Engineering', 'Tool Design', 'Marketing', 'Information Services'))", conn).ExecuteNonQuery();
+
+                SqlCommand getEmps = new SqlCommand(@"SELECT FirstName, LastName, Salary FROM Employees WHERE DepartmentID IN (SELECT DepartmentID FROM Departments WHERE [Name] IN ('Engineering', 'Tool Design', 'Marketing', 'Information Services')) ORDER BY FirstName, LastName", conn);
+                SqlDataReader reader = getEmps.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    expected.AppendLine($"{reader["FirstName"]} {reader["LastName"]} (${reader["Salary"]:f2})");
+                }
+                reader.Close();
+
+                new SqlCommand(@"UPDATE Employees
+	                                SET Salary /= 1.12
+	                            WHERE DepartmentID IN (SELECT DepartmentID FROM Departments WHERE [Name] IN ('Engineering', 'Tool Design', 'Marketing', 'Information Services'))", conn).ExecuteNonQuery();
+
+
+                conn.Close();
+                conn.Dispose();
+            }
+
+
+           
+            string actual = StartUp.IncreaseSalaries(new SoftUni.Data.SoftUniContext());
+            Assert.AreEqual(expected.ToString(), actual);
+        }
+
+        [Test]
+        public void TestGetEmployeesByFirstNameStartingWithSa()
+        {
+            var expected = new StringBuilder();
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand query = new SqlCommand(@"SELECT FirstName, LastName, JobTitle, Salary FROM Employees WHERE LEFT(FirstName, 2) = 'Sa' ORDER BY FirstName, LastName", conn);
+                SqlDataReader reader = query.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    expected.AppendLine($"{reader["FirstName"]} {reader["LastName"]} - {reader["JobTitle"]} - (${reader["Salary"]:f2})");
+                }
+
+                reader.Close();
+                conn.Close();
+                conn.Dispose();
+            }
+
+            string actual = StartUp.GetEmployeesByFirstNameStartingWithSa(new SoftUni.Data.SoftUniContext());
+            Assert.AreEqual(expected.ToString(), actual);
+        }
     }
 }
