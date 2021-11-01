@@ -9,6 +9,10 @@ namespace ServiceCodeFirstExercise.Data.Models
 {
     public class Employee
     {
+        public Employee()
+        {
+            Reports = new HashSet<Report>();
+        }
         public int Id { get; set; }
 
         [MaxLength(25)]
@@ -24,5 +28,7 @@ namespace ServiceCodeFirstExercise.Data.Models
 
         public int DepartmentId { get; set; }
         public Department Depatment { get; set; }
+
+        public ICollection<Report> Reports { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceCodeFirstExercise.Data;
+using System;
 
 namespace ServiceCodeFirstExercise
 {
@@ -6,6 +7,10 @@ namespace ServiceCodeFirstExercise
     {
         static void Main(string[] args)
         {
+            var db = new ServiceDbContext();
+
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
         }
     }
 }

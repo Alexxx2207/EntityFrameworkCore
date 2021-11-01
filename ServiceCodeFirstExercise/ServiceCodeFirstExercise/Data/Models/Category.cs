@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,10 @@ namespace ServiceCodeFirstExercise.Data.Models
         public string Name { get; set; }
 
         [Required]
-        public int DeparmentId { get; set; }
+        public int DepartmentId { get; set; }
+
         [Required]
+        [NotMapped]
         public Department Department { get; set; }
     }
 }
