@@ -11,7 +11,7 @@ namespace ServiceCodeFirstExercise.Data
         }
 
         public ServiceDbContext(DbContextOptions options)
-            : base(options)
+            : base(options) 
         {
 
         }
@@ -31,7 +31,7 @@ namespace ServiceCodeFirstExercise.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(ConnectionStringBuilder.ConnectionStringBuilder.ConnectionString);
+                optionsBuilder.UseSqlServer(@"Server=.;Database=Service;User=Alex;Password=qazwsxedcrfvtgbyhnujm");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,6 +45,16 @@ namespace ServiceCodeFirstExercise.Data
                 .HasOne(x => x.User)
                 .WithMany(x => x.Reports)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Report>()
+                .Property(x => x.CloseDate)
+                .IsRequired(false);
+
+            modelBuilder.Entity<User>()
+                .Property(x => x.Age)
+                .IsRequired(false);
+
+            
         }
     }
 }

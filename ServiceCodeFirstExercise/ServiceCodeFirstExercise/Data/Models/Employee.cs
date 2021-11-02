@@ -21,13 +21,13 @@ namespace ServiceCodeFirstExercise.Data.Models
         [MaxLength(25)]
         public string LastName { get; set; }
 
-        public DateTime Birthdate { get; set; }
+        public DateTime? Birthdate { get; set; }
 
         [Range(18,110)]
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         public int DepartmentId { get; set; }
-        public Department Depatment { get; set; }
+        public Department Department { get; set; }
 
         public ICollection<Report> Reports { get; set; }
     }

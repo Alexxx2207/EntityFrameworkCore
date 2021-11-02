@@ -24,7 +24,7 @@ namespace ServiceCodeFirstExercise.Data.Models
         [Required]
         public DateTime OpenDate { get; set; }
 
-        public DateTime CloseDate { get; set; }
+        public DateTime? CloseDate { get; set; }
 
         [Required]
         [MaxLength(200)]
@@ -35,9 +35,7 @@ namespace ServiceCodeFirstExercise.Data.Models
         [Required]
         public User User { get; set; }
 
-        [Required]
-        public int EmployeeId { get; set; }
-        [Required]
+        public int? EmployeeId { get; set; }
         public Employee Employee { get; set; }
     }
 }

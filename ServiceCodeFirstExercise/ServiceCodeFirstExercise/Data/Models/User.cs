@@ -24,10 +24,10 @@ namespace ServiceCodeFirstExercise.Data.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public DateTime Birthdate { get; set; }
+        public DateTime? Birthdate { get; set; }
 
         [Range(14, 110)]
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         [Required]
         [EmailAddress]
