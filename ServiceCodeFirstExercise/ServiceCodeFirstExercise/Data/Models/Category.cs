@@ -22,5 +22,7 @@ namespace ServiceCodeFirstExercise.Data.Models
         [Required]
         [NotMapped]
         public Department Department { get; set; }
+
+        public ICollection<Report> Reports { get; set; }
     }
 }

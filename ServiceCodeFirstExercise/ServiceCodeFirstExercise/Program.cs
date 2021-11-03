@@ -2,6 +2,7 @@
 using ServiceCodeFirstExercise.Data.Models;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace ServiceCodeFirstExercise
 {
@@ -97,7 +98,154 @@ namespace ServiceCodeFirstExercise
             db.SaveChanges();
         }
 
+        static void Update()
+        {
+            foreach (var report in db.Reports)
+            {
+                if (report.CloseDate is null)
+                    report.CloseDate = DateTime.Now;
+            }
 
+            db.SaveChanges();
+        }
+
+        static void Delete()
+        {
+            foreach (var report in db.Reports)
+            {
+                if (report.StatusId == 4)
+                    db.Reports.Remove(report);
+            }
+
+            db.SaveChanges();
+        }
+
+        static void UnassignedReports()
+        {
+            var reports = db.Reports
+                        .Where(x => x.EmployeeId == null)
+                        .Select(x => new
+                                {
+                                    Description = x.Description,
+                                    OpenDate = x.OpenDate
+                                })
+                        .OrderBy(x => x.OpenDate)
+                        .ToList();
+
+            foreach (var item in reports)
+            {
+                Console.WriteLine($"{item.Description}  {item.OpenDate:dd-MM-yyyy}");
+            }
+        }
+
+        static void ReportsAndCategories()
+        {
+            var result = db.Reports
+                           .Select(r => new
+                           {
+                               Description = r.Description,
+                               CategoryName = r.Category.Name
+                           })
+                           .OrderBy(x => x.Description)
+                           .ThenBy(x => x.CategoryName)
+                           .ToList();
+
+            foreach (var item in result)
+            {
+                Console.WriteLine($"{item.Description} {item.CategoryName}");
+            }
+        }
+
+        static void MostPlayedCategory()
+        {
+            var categories = db.Categories
+                            .Select(c => new
+                            {
+                                CategoryName = c.Name,
+                                ReportsNumber = c.Reports.Count
+                            })
+                            .OrderByDescending(x => x.ReportsNumber)
+                            .ThenBy(x => x.CategoryName)
+                            .Take(5)
+                            .ToList();
+
+            foreach (var category in categories)
+            {
+                Console.WriteLine($"{category.CategoryName} {category.ReportsNumber}");
+            }
+        }
+
+        static void BirthdayReport()
+        {
+            var results = db.Reports
+                            .Where(r => r.User.Birthdate.Value.Day == r.OpenDate.Day &&
+                                        r.User.Birthdate.Value.Month == r.OpenDate.Month)
+                            .Select(r => new
+                            { 
+                                Username = r.User.Username,
+                                CategoryName = r.Category.Name
+                            })
+                            .OrderBy(x => x.Username)
+                            .ThenBy(x => x.CategoryName)
+                            .ToList();
+
+            foreach (var result in results)
+            {
+                Console.WriteLine($"{result.Username}  {result.CategoryName}");
+            }
+        }
+
+        static void UserPerEmployee()
+        {
+            var employees = db.Reports
+                            .Where(x => x.Employee != null)
+                            .Select(x => new
+                            { 
+                                FullName = x.Employee.FirstName + " " + x.Employee.LastName,
+                                UsersCount = db.Reports.Count(r => r.EmployeeId == x.EmployeeId)
+                            })
+                            .Distinct()
+                            .OrderByDescending(x => x.UsersCount)
+                            .ThenBy(x => x.FullName)
+                            .ToList();
+
+            foreach (var emp in employees)
+            {
+                Console.WriteLine($"{emp.FullName} {emp.UsersCount}");
+            }
+        }
+
+        static void FullInfo()
+        {
+            var reports = db.Reports
+                .Select(r => new
+                {
+                    EmployeeFirstName = r.Employee.FirstName,
+                    EmployeeLastName = r.Employee.LastName,
+                    Department = r.Employee.Department.Name,
+                    Category = r.Category.Name,
+                    Description = r.Description,
+                    OpenDate = r.OpenDate,
+                    Status = r.Status.Label,
+                    User = r.User.Name
+                })
+                .OrderByDescending(x => x.EmployeeFirstName)
+                .ThenByDescending(x => x.EmployeeLastName)
+                .ThenBy(x => x.Department)
+                .ThenBy(x => x.Category)
+                .ThenBy(x => x.Description)
+                .ThenBy(x => x.OpenDate)
+                .ThenBy(x => x.Status)
+                .ThenBy(x => x.User)
+                .ToList();
+
+            foreach (var report in reports)
+            {
+                Console.WriteLine($"{report.EmployeeFirstName} {report.EmployeeLastName}," +
+                    $" {report.Department}, {report.Category}, {report.Description}," +
+                    $" {report.OpenDate:dd.MM.yyyy}, {report.Status}, {report.User}");
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -107,6 +255,7 @@ namespace ServiceCodeFirstExercise
             db.Database.EnsureCreated();
 
             // INSERT HERE A SPECIFIC METHOD to EXECURE 
+            
         }
     }
 }
