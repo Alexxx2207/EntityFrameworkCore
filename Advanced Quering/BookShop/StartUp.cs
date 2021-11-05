@@ -13,7 +13,6 @@
     {
         public static string GetBooksByAgeRestriction(BookShopContext context, string command)
         {
-
             command = command.ToLower();
 
             AgeRestriction indexSearching = Enum.Parse<AgeRestriction>(command, true);
