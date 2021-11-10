@@ -34,6 +34,11 @@
         {
             var emp = mapper.Map<Employee>(model);
 
+            emp.PositionId = this.context.Positions
+                .Where(p => p.Name == model.PositionName)
+                .Select(p => p.Id)
+                .FirstOrDefault();
+
             this.context.Employees.Add(emp);
 
             this.context.SaveChanges();

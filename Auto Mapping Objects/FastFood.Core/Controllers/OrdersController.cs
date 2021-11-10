@@ -24,8 +24,8 @@
         {
             var viewOrder = new CreateOrderViewModel
             {
-                Items = this.context.Items.Select(x => x.Id).ToList(),
-                Employees = this.context.Employees.Select(x => x.Id).ToList(),
+                Items = this.context.Items.Select(x => x.Name).ToList(),
+                Employees = this.context.Employees.Select(x => x.Name).ToList(),
             };
 
             return this.View(viewOrder);
@@ -35,6 +35,17 @@
         public IActionResult Create(CreateOrderInputModel model)
         {
             var order = mapper.Map<Order>(model);
+
+            order.OrderItems.Add(new OrderItem()
+            {
+                Item = this.context.Items.Where(i => i.Name == model.ItemName).FirstOrDefault(),
+                Order = order
+            });
+
+            order.EmployeeId = this.context.Employees
+                .Where(e => e.Name == model.EmployeeName)
+                .Select(e => e.Id)
+                .FirstOrDefault();
 
             this.context.Orders.Add(order);
 
