@@ -250,7 +250,7 @@ namespace CarDealer
 
             db.Database.EnsureCreated();
 
-            Console.WriteLine(GetSalesWithAppliedDiscount(db));
+            // Write (a) method(s) from above
         }
     }
 }

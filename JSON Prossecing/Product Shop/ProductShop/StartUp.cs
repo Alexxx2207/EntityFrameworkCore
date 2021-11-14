@@ -197,8 +197,7 @@ namespace ProductShop
             //db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
 
-
-            Console.WriteLine(GetUsersWithProducts(db));
+            // Write (a) method(s) from above
         }
 
         static void InitializeAutoMapper()
