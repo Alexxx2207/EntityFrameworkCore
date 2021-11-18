@@ -12,7 +12,7 @@ namespace RealEstates.Services
 {
     public class PropertiesService : IPropertiesService
     {
-        private RealEstateDbContext db;
+        private readonly RealEstateDbContext db;
         public PropertiesService(RealEstateDbContext context)
         {
             db = context;

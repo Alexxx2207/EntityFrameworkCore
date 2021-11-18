@@ -12,7 +12,7 @@ namespace RealEstates.Services
 {
     public class TagService : ITagService
     {
-        private RealEstateDbContext db;
+        private readonly RealEstateDbContext db;
         private decimal averagePrice;
         private double averageYear;
         private double averageSize;

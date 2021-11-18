@@ -1,0 +1,209 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Exporter\\RealEstates.Exporter.csproj": {}
+  },
+  "projects": {
+    "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Data\\RealEstates.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Data\\RealEstates.Data.csproj",
+        "projectName": "RealEstates.Data",
+        "projectPath": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Data\\RealEstates.Data.csproj",
+        "packagesPath": "C:\\Users\\Alexander Ivanov\\.nuget\\packages\\",
+        "outputPath": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Alexander Ivanov\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Models\\RealEstates.Models.csproj": {
+                "projectPath": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Models\\RealEstates.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.12, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Exporter\\RealEstates.Exporter.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Exporter\\RealEstates.Exporter.csproj",
+        "projectName": "RealEstates.Exporter",
+        "projectPath": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Exporter\\RealEstates.Exporter.csproj",
+        "packagesPath": "C:\\Users\\Alexander Ivanov\\.nuget\\packages\\",
+        "outputPath": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Exporter\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Alexander Ivanov\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Data\\RealEstates.Data.csproj": {
+                "projectPath": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Data\\RealEstates.Data.csproj"
+              },
+              "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Models\\RealEstates.Models.csproj": {
+                "projectPath": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Models\\RealEstates.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "System.Xml.XmlSerializer": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Models\\RealEstates.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Models\\RealEstates.Models.csproj",
+        "projectName": "RealEstates.Models",
+        "projectPath": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Models\\RealEstates.Models.csproj",
+        "packagesPath": "C:\\Users\\Alexander Ivanov\\.nuget\\packages\\",
+        "outputPath": "D:\\Programming\\GitHub\\EntityFrameworkCore\\RealEstates\\RealEstates.Models\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Alexander Ivanov\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "System.Xml.XmlSerializer": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
