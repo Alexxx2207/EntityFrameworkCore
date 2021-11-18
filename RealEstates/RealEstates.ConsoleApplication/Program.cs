@@ -24,12 +24,15 @@ namespace RealEstates.ConsoleApplication
                 Console.WriteLine("Choose To: ");
                 Console.WriteLine("1 - Search For A Property");
                 Console.WriteLine("2 - Get Most Expensive Disticts");
-                Console.WriteLine("3 - Exit");
+                Console.WriteLine("3 - Add Tags");
+                Console.WriteLine("4 - Add Tags To Properties");
+                Console.WriteLine("5 - Get Properties Count By Property Type");
+                Console.WriteLine("0 - Exit");
 
                 Console.Write("\nYour Choice: ");
                 bool input = int.TryParse(Console.ReadLine(), out int choice);
 
-                if (choice == 3)
+                if (choice == 0)
                     break;
 
                 switch (choice)
@@ -60,6 +63,23 @@ namespace RealEstates.ConsoleApplication
                         Console.ReadKey();
                         break;
 
+                    case 3:
+                        AddTags(db);
+                        Console.WriteLine("\n\nClick Anything To Go Forward...");
+                        Console.ReadKey();
+                        break;
+
+                    case 4:
+                        AddTagsToProperties(db);
+                        Console.WriteLine("\n\nClick Anything To Go Forward...");
+                        Console.ReadKey();
+                        break;
+
+                    case 5:
+                        GetCountOfPropertiesByProertyType(db);
+                        Console.WriteLine("\n\nClick Anything To Go Forward...");
+                        Console.ReadKey();
+                        break;
                     default:
                         break;
                 }
@@ -102,14 +122,15 @@ namespace RealEstates.ConsoleApplication
                 Console.WriteLine(new string('-', 40));
 
                 Console.WriteLine($"Size: {p.Size:F2}m²");
-                Console.WriteLine($"Yard Size: {p.YardSize:F2}m²");
-                Console.WriteLine($"Floor: {p.Floor}");
-                Console.WriteLine($"All Floors: {p.BuildingFloors}");
+                Console.WriteLine($"Yard Size: {p.YardSize ?? 0:F2}m²");
+                Console.WriteLine($"Floor: {p.Floor ?? 0}");
+                Console.WriteLine($"All Floors: {p.BuildingFloors ?? 0}");
                 Console.WriteLine($"District: {p.DistrictName}");
-                Console.WriteLine($"Year: {p.Year}");
+                Console.WriteLine($"Year: {p.Year ?? 0}");
                 Console.WriteLine($"Property Type: {p.PropertyTypeName}");
                 Console.WriteLine($"Building Type: {p.BuildingTypeName}");
                 Console.WriteLine($"Price: {p.Price:F2}€");
+                Console.WriteLine($"Tags: {string.Join(", ", p.Tags)}");
                 
                 Console.WriteLine(new string('-', 40));
             }
@@ -117,7 +138,7 @@ namespace RealEstates.ConsoleApplication
 
         private static void GetMostExpensiveDistrics(RealEstateDbContext context, int count)
         {
-            IDistrictsService districtsService = new DistricsService(context);
+            IDistrictsService districtsService = new DistrictsService(context);
 
             var districts = districtsService.GetMostExpensiveDistricts(count);
 
@@ -130,6 +151,37 @@ namespace RealEstates.ConsoleApplication
                 Console.WriteLine($"Price per m²: {d.PricePerSquareMeter:F2}");
 
                 Console.WriteLine(new string('-', 40));
+            }
+        }
+
+        private static void AddTags(RealEstateDbContext context)
+        {
+            ITagService tagService = new TagService(context);
+
+            tagService.AddTags();
+        }
+        
+        private static void AddTagsToProperties(RealEstateDbContext context)
+        {
+            ITagService tagService = new TagService(context);
+
+            tagService.SetTagsToProperties();
+        }
+
+        private static void GetCountOfPropertiesByProertyType(RealEstateDbContext context)
+        {
+            IPropertiesService propertyService = new PropertiesService(context);
+
+            var groupsOfProperties = propertyService.GetCountOfPropertiesByPropertyType();
+
+            foreach (var group in groupsOfProperties)
+            {
+                Console.WriteLine(new string('-', 40));
+
+                Console.WriteLine($"Property Type: {group.PropertyTypeName} \n\tProperties: {group.Count}");
+
+                Console.WriteLine(new string('-', 40));
+
             }
         }
     }

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace RealEstates.Services
 {
-    public class DistricsService : IDistrictsService
+    public class DistrictsService : IDistrictsService
     {
         private RealEstateDbContext db;
 
-        public DistricsService(RealEstateDbContext context)
+        public DistrictsService(RealEstateDbContext context)
         {
             db = context;
         }

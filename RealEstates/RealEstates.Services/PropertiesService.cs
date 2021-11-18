@@ -1,4 +1,5 @@
-﻿using RealEstates.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RealEstates.Data;
 using RealEstates.Models.ViewModels;
 using RealEstates.Services.Contracts;
 using System;
@@ -15,6 +16,25 @@ namespace RealEstates.Services
         public PropertiesService(RealEstateDbContext context)
         {
             db = context;
+        }
+
+        public IEnumerable<CountOfPropertiesByPropertyType> 
+                                                 GetCountOfPropertiesByPropertyType()
+        {
+            var types = db.PropertyTypes.Include(pt => pt.Properties).ToList();
+
+            var groups = new List<CountOfPropertiesByPropertyType>();
+
+            foreach (var propertyType in types)
+            {
+                groups.Add(new CountOfPropertiesByPropertyType
+                {
+                    PropertyTypeName = propertyType.Name,
+                    Count = propertyType.Properties.Count()
+                });
+            }
+
+            return groups;
         }
 
         public IEnumerable<SearchedPropertyDTO> SearchForProperty(
@@ -37,7 +57,7 @@ namespace RealEstates.Services
                                 BuildingTypeName = p.BuildingType.Name,
                                 PropertyTypeName = p.PropertyType.Name,
                                 Year = p.Year,
-                                //Tags = p.Tags.OrderBy(t => t.Importance).Select(t => t.Name)
+                                Tags = p.Tags.OrderBy(t => t.Importance).Select(t => t.Name)
                             })
                             .ToList();
                             

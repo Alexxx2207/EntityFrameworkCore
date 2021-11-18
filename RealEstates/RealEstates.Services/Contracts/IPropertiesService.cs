@@ -12,5 +12,7 @@ namespace RealEstates.Services.Contracts
         IEnumerable<SearchedPropertyDTO> SearchForProperty(decimal minPrice, decimal maxPrice,
                                                             int minfloor,
                                                             double minSize);
+
+        IEnumerable<CountOfPropertiesByPropertyType> GetCountOfPropertiesByPropertyType();
     }
 }

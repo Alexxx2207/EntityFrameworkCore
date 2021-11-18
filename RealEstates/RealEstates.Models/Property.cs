@@ -8,6 +8,11 @@ namespace RealEstates.Models
 {
     public class Property
     {
+        public Property()
+        {
+            Tags = new HashSet<Tag>();
+        }
+
         public int Id { get; set; }
 
         public double Size { get; set; }
