@@ -36,6 +36,7 @@ namespace RealEstates.Exporter
 
             string xmlText = XMLSerializationOfProperties(properties);
 
+            // Insert destination
             ExportXMLFile("Properties.xml", xmlText);
 
 
