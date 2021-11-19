@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstates.Importer", "Rea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstates.ConsoleApplication", "RealEstates.ConsoleApplication\RealEstates.ConsoleApplication.csproj", "{27185D27-9D39-4CCE-81AA-ABE2D74B4153}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstates.Exporter", "RealEstates.Exporter\RealEstates.Exporter.csproj", "{6570E64D-C012-4F62-85F1-F08D6B442459}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstates.Exporter", "RealEstates.Exporter\RealEstates.Exporter.csproj", "{6570E64D-C012-4F62-85F1-F08D6B442459}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

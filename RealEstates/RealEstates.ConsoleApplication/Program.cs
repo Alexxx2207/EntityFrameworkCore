@@ -142,10 +142,12 @@ namespace RealEstates.ConsoleApplication
 
             var districts = districtsService.GetMostExpensiveDistricts(count);
 
+            int counter = 1;
             foreach (var d in districts)
             {
                 Console.WriteLine(new string('-', 40));
 
+                Console.WriteLine(counter++);
                 Console.WriteLine($"Name: {d.Name}");
                 Console.WriteLine($"Properties count: {d.PropertiesCount}");
                 Console.WriteLine($"Price per m²: {d.PricePerSquareMeter:F2}");
