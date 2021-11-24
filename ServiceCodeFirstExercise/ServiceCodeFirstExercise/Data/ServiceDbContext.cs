@@ -31,7 +31,7 @@ namespace ServiceCodeFirstExercise.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(@"Server=.;Database=Service;User=Alex;Password=qazwsxedcrfvtgbyhnujm");
+                optionsBuilder.UseSqlServer(@"Server=.;Database=Service;Integrated Security = True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
